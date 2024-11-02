@@ -1,4 +1,7 @@
 from datetime import date, timedelta, datetime
+from pillcalendar.period import Period
+from pillcalendar.weekday import Weekday
+from pillcalendar.pill import Pill
 
 FULL_TIME = [True, True, True]
 FULL_FALSE = [False, False, False]
@@ -11,121 +14,8 @@ FULL_DAYS = [
     FULL_TIME,
     FULL_TIME,
 ]
-WEEKDAYS = ["Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс"]
-TIMEOFDAY = ["Утро", "День", "Вечер"]
 
 
-class SheduleDay:
-    def __init__(
-        self, morning: bool = False, noon: bool = False, evening: bool = False
-    ):
-        self.morning = morning
-        self.noon = noon
-        self.evening = evening
-
-    def __str__(self):
-        # wk_time = []
-        # wk_time.extend([itm for i, itm in zip([self.morning, self.noon, self.evening], TIMEOFDAY) if i == True])
-        on_time = " ".join(
-            [
-                itm
-                for i, itm in zip([self.morning, self.noon, self.evening], TIMEOFDAY)
-                if i == True
-            ]
-        )
-        return f"{on_time}"
-
-    def __repr__(self):
-        return f"SheduleDay {self.morning}, {self.noon}, {self.evening}"
-
-    @property
-    def is_fullday(self):
-        if self.morning is True and self.noon is True and self.evening is True:
-            return True
-        else:
-            return False
-
-    @property
-    def is_on(self):
-        if self.morning is True or self.noon is True or self.evening is True:
-            return True
-        else:
-            return False
-
-    def __eq__(self, object):
-        if (
-            isinstance(object, SheduleDay)
-            and self.morning == object.morning
-            and self.noon == object.noon
-            and self.evening == object.evening
-        ):
-            return True
-        return False
-
-
-class Shedule:
-    def __init__(self, start: date, weekdays: list, days=0, weeks=0):
-        delta_days = int(weeks) * 7 + int(days)
-        self.delta = timedelta(days=delta_days)
-        self.start_date = start
-        self.week_days = weekdays
-        self.every_full_day = self.__check_week_days()
-
-    def __str__(self):
-        days = []
-        if self.every_full_day is False:
-            for i, item in enumerate(self.week_days, start=0):
-                if item != SheduleDay():
-                    days.append(WEEKDAYS[i])
-            on_days = " ".join(days)
-        else:
-            on_days = " ".join(WEEKDAYS)
-        return f'с {datetime.strftime(self.start_date, "%d.%m.%Y")} по {datetime.strftime(self.end_date, "%d.%m.%Y")} {on_days}'
-
-    def __repr__(self):
-        return f"Shedule {self.name} {self.every_full_day}"
-
-    @property
-    def end_date(self):
-        return self.start_date + self.delta
-
-    def __check_week_days(self):
-        for item in self.week_days:
-            if item.is_fullday is False:
-                return False
-        return True
-
-
-class Pill:
-    def __init__(self, name, shedule: Shedule):
-        self.name = name
-        self.shedule = shedule
-
-    def __str__(self):
-        return f"Препарат {self.name}, прием {self.shedule}"
-
-    def __repr__(self):
-        return f"Pill {self.name}"
-
-    def check(self, check_date: date):
-        wk_time = []
-        wk_day = check_date.weekday()
-        if self.shedule.start_date <= check_date <= self.shedule.end_date:
-            sh_d = self.shedule.week_days[wk_day]
-            if sh_d.is_fullday is True or sh_d.is_on is True:
-                return True, [
-                    itm
-                    for i, itm in zip(
-                        [sh_d.morning, sh_d.noon, sh_d.evening], TIMEOFDAY
-                    )
-                    if i == True
-                ]
-        return False, None
-
-
-class Plan:
-    def __init__(self):
-        pass
 
 
 def main():
