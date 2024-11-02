@@ -1,57 +1,39 @@
 from datetime import date, timedelta, datetime
-from pillcalendar.period import Period
-from pillcalendar.weekday import Weekday
 from pillcalendar.pill import Pill
-
-FULL_TIME = [True, True, True]
-FULL_FALSE = [False, False, False]
-FULL_DAYS = [
-    FULL_TIME,
-    FULL_TIME,
-    FULL_TIME,
-    FULL_TIME,
-    FULL_TIME,
-    FULL_TIME,
-    FULL_TIME,
-]
-
-
+from pillcalendar.sheduler import Sheduler, Weekday
 
 
 def main():
-    str_date = "21.10.2024"
-    start_date = datetime.strptime(str_date, "%d.%m.%Y").date()
 
-    sh = Shedule(
-        start=start_date,
-        weeks=1,
-        weekdays=[
-            SheduleDay(morning=True),
-            SheduleDay(noon=True),
-            SheduleDay(morning=True, noon=True, evening=True),
-            SheduleDay(morning=True, evening=True),
-            SheduleDay(),
-            SheduleDay(),
-            SheduleDay(morning=True, noon=True, evening=True),
-        ],
-    )
-
-    a = Pill("Аллопуринол 100", shedule=sh)
-    print(a)
-
-    str_week = "21.10.2024"
+    str_week = "01.07.2024"
+    date_f = "04.11.2024"   
+    date_t = "10.11.2024"  
+    
+    weekdays = ["Вт", "Чт", "Сб", "Вс"]
+    timeofdays = ["Утро", "Вечер"] 
+    quantity = 1
+    days = 0  
+    weeks = 20
+     
+     
     start_week = datetime.strptime(str_week, "%d.%m.%Y").date()
-    for day_plus in range(0, 7):
-        checked_date = start_week + timedelta(days=day_plus)
-        checked_value = a.check(checked_date)
-        if checked_value[0] is True:
-            print(
-                f'{datetime.strftime(checked_date, "%d.%m.%Y")} {WEEKDAYS[checked_date.weekday()]} - {" ".join(checked_value[1])}'
-            )
-        else:
-            print(
-                f'{datetime.strftime(checked_date, "%d.%m.%Y")} {WEEKDAYS[checked_date.weekday()]} - Нет'
-            )
+    date_from = datetime.strptime(date_f, "%d.%m.%Y").date()
+    date_till = datetime.strptime(date_t, "%d.%m.%Y").date()
+
+
+    
+    wkd = Weekday(weekdays=weekdays, timeofday=timeofdays)
+    shdl1 = Sheduler(start=start_week, weekdays=wkd, quantity=quantity, days=days, weeks=weeks)
+    print(f"начало {shdl1.start} окончание {shdl1.end_date}")
+
+    pl = Pill(name="Препарат", sheduler=shdl1)
+    print(f"начало {pl.sheduler.start} окончание {pl.sheduler.end_date}")
+    print(f'{pl}') 
+    print(f"График приема: ")     
+    print(pl.sheduler.shedule(start=date_from, end=date_till))
+    print(f"потребность - {pl.sheduler.requirement(start=date_from, end=date_till)}")
+
+
 
 
 if __name__ == "__main__":
