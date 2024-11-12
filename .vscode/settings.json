@@ -11,5 +11,7 @@
     ],
     "python.linting.pylintEnabled": true,
     "python.linting.enabled": true,
-    "python.linting.lintOnSave": true
+    "python.linting.lintOnSave": true,
+    "editor.fontFamily": "Fira Code",
+    "editor.fontLigatures": true
 }

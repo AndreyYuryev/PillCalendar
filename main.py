@@ -5,15 +5,16 @@ from pillcalendar.sheduler import Sheduler, Weekday
 
 def main():
 
-    str_week = "01.07.2024"
+    str_week = "01.08.2024"
+    
     date_f = "04.11.2024"   
     date_t = "10.11.2024"  
     
-    weekdays = ["Вт", "Чт", "Сб", "Вс"]
-    timeofdays = ["Утро", "Вечер"] 
+    weekdays = ["Пн", "Ср", "Сб", "Пт"]
+    timeofdays = ["Утро", "Обед"] 
     quantity = 1
-    days = 0  
-    weeks = 20
+    days = 100  
+    weeks = 0
      
      
     start_week = datetime.strptime(str_week, "%d.%m.%Y").date()

@@ -16,6 +16,8 @@ class Weekday:
             for key, value in Weekday.TIMEOFDAY.items():
                 if value == itm:
                     self.timeofday_index.append(key)
+        self.weekday_index.sort()
+        self.timeofday_index.sort()
 
     @property
     def weekday_indx(self):
@@ -31,17 +33,26 @@ class Sheduler:
         delta_days = int(weeks) * 7 + int(days)
         delta = timedelta(days=delta_days)
         self.start = start
-        self.end = self.start + delta
+        if delta_days > 1:
+            self.end = self.start + delta - timedelta(days=1)
+        else:
+            self.end = self.start
         self.quantity = quantity
         self.weekdays = weekdays
 
     @property
     def end_date(self):
         return self.end
+    
+    @property
+    def start_date(self):
+        return self.start
 
     def requirement(self, start: date, end: date):
         requirement_quantity = 0
-        if start >= self.start and end <= self.end:
+        if start >= self.start and start <= self.end:
+            if end > self.end:
+                end = self.end
             delta = end - start
             for day_increment in range(0, delta.days + 1):
                 day = start + timedelta(days=day_increment)
@@ -51,10 +62,13 @@ class Sheduler:
                     requirement_quantity += self.quantity * times
         return requirement_quantity
 
-    def shedule(self, start: date, end: date):
-        shedule = []
+    def shedule(self, start: date, end: date): 
+        timeline = []
+        shedule = dict()
         requirement_quantity = 0
-        if start >= self.start and end <= self.end:
+        if start >= self.start and start <= self.end:
+            if end > self.end:
+                end = self.end
             delta = end - start
             for day_increment in range(0, delta.days + 1):
                 day = start + timedelta(days=day_increment)
@@ -65,19 +79,22 @@ class Sheduler:
                     shedule_day.extend(
                         [
                             f"{Weekday.WEEKDAYS.get(weekday_index)}",
-                            f"{day}: {self.quantity * len(self.weekdays.timeofday_index)} /",
+                            f"{day}",
+                            f"{self.quantity * len(self.weekdays.timeofday_index)}",
                         ]
                     )
                     for timeofday_index in self.weekdays.timeofday_indx:
                         shedule_day.extend(
                             [
-                                f" {Weekday.TIMEOFDAY.get(timeofday_index)}",
+                                f"{Weekday.TIMEOFDAY.get(timeofday_index)}",
                                 f"{self.quantity}",
                             ]
                         )
                         # print(f'{Weekday.TIMEOFDAY.get(timeofday_index)} {self.quantity}')
-                    shedule.append(" ".join(shedule_day))
-            return "\n".join(shedule)
+                    shedule[day] = shedule_day
+            timeline.extend(shedule.items())
+            timeline.sort()
+            return timeline
 
     def __str__(self):
         shed_lst = []
@@ -86,23 +103,4 @@ class Sheduler:
         for w_indx in self.weekdays.weekday_indx:
             shed_lst.append(Weekday.WEEKDAYS.get(w_indx))
         return " ".join(shed_lst)
-
-
-if __name__ == "__main__":
-
-    str_week = "21.10.2024"
-    start_week = datetime.strptime(str_week, "%d.%m.%Y").date()
-
-    weekdays = ["Пн", "Пт", "Чт", "Сб"]
-    timeofdays = ["Утро", "День", "Вечер"]
-    wkd = Weekday(weekdays=weekdays, timeofday=timeofdays)
-
-    shdl1 = Sheduler(start=start_week, weekdays=wkd, quantity=2, days=14)
-    print(f"начало {shdl1.start} окончание {shdl1.end_date}")
-
-    date_from = shdl1.start
-    date_till = shdl1.end_date
-
-    print(f"График: ")
-    print(shdl1.shedule(start=shdl1.start, end=shdl1.end_date))
-    print(f"потребность - {shdl1.requirement(start=date_from, end=date_till)}")
+    
