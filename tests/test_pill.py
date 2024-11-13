@@ -1,7 +1,7 @@
 import pytest
+from datetime import date, timedelta, datetime
 from pillcalendar.sheduler import Weekday, Sheduler
 from pillcalendar.pill import Pill
-from datetime import date, timedelta, datetime
 
 
 def test_requirement():

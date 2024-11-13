@@ -1,6 +1,6 @@
 import pytest
-from pillcalendar.sheduler import Weekday, Sheduler
 from datetime import date, timedelta, datetime
+from pillcalendar.sheduler import Weekday, Sheduler
 
 
 def test_weekday():

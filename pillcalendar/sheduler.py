@@ -103,4 +103,3 @@ class Sheduler:
         for w_indx in self.weekdays.weekday_indx:
             shed_lst.append(Weekday.WEEKDAYS.get(w_indx))
         return " ".join(shed_lst)
-    

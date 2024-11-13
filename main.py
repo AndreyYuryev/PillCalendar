@@ -3,6 +3,7 @@ from pillcalendar.pill import Pill
 from pillcalendar.sheduler import Sheduler, Weekday
 
 
+
 def main():
 
     str_week = "01.08.2024"
@@ -33,8 +34,6 @@ def main():
     print(f"График приема: ")     
     print(pl.sheduler.shedule(start=date_from, end=date_till))
     print(f"потребность - {pl.sheduler.requirement(start=date_from, end=date_till)}")
-
-
 
 
 if __name__ == "__main__":
