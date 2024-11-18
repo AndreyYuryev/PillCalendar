@@ -50,9 +50,11 @@ class Sheduler:
 
     def requirement(self, start: date, end: date):
         requirement_quantity = 0
-        if start >= self.start and start <= self.end:
+        if start <= self.end and end >= self.start:
             if end > self.end:
                 end = self.end
+            if start < self.start:
+                start = self.start
             delta = end - start
             for day_increment in range(0, delta.days + 1):
                 day = start + timedelta(days=day_increment)
@@ -66,9 +68,11 @@ class Sheduler:
         timeline = []
         shedule = dict()
         requirement_quantity = 0
-        if start >= self.start and start <= self.end:
+        if start <= self.end and end >= self.start:
             if end > self.end:
                 end = self.end
+            if start < self.start:
+                start = self.start
             delta = end - start
             for day_increment in range(0, delta.days + 1):
                 day = start + timedelta(days=day_increment)

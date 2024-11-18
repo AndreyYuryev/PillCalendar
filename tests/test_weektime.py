@@ -87,3 +87,8 @@ def test_sheduler_shedule():
                 (start_date +timedelta(days=1), ['Вт', '2024-10-22', '2', 'Утро', '1', 'Вечер', '1'])]
     assert shdl.shedule(start=start_date, end=end_date) == timeline
     
+    str_start_date = "10.10.2024"
+    start_date = datetime.strptime(str_start_date, "%d.%m.%Y").date()
+    assert shdl.shedule(start=start_date, end=end_date) == timeline    
+    
+    

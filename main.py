@@ -5,35 +5,40 @@ from pillcalendar.sheduler import Sheduler, Weekday
 
 
 def main():
-
-    str_week = "01.08.2024"
+    exit = ''
+    pills = list()
+    next = False
+    previous_date_exist = False
+    previous_date = datetime.today()
     
-    date_f = "04.11.2024"   
-    date_t = "10.11.2024"  
-    
-    weekdays = ["Пн", "Ср", "Сб", "Пт"]
-    timeofdays = ["Утро", "Обед"] 
-    quantity = 1
-    days = 100  
-    weeks = 0
-     
-     
-    start_week = datetime.strptime(str_week, "%d.%m.%Y").date()
-    date_from = datetime.strptime(date_f, "%d.%m.%Y").date()
-    date_till = datetime.strptime(date_t, "%d.%m.%Y").date()
+    while True:
+        pill_name = input('Ввведите название препарата: ')
+        weekdays = list(input('Введите через пробел день недели (Пн Вт Ср Чт Пт Сб Вс): ').split())   
+        timeofdays = list(input('Введите через пробел время суток (Утро День Вечер): ').split())
+        doze = int(input('Введите количество, штук: '))
+        if previous_date_exist is False or input('Добавить после предыдущего? д/н ') == 'н':
+            start_date = datetime.strptime(input('Введите дату начала в формате ДД.ММ.ГГГГ: '), "%d.%m.%Y").date()
+        else:
+            start_date = previous_date
+        duration_week = int(input('Длительность приема в неделях: '))
+        duration_days = int(input('Длительность приема в днях: '))
 
-
-    
-    wkd = Weekday(weekdays=weekdays, timeofday=timeofdays)
-    shdl1 = Sheduler(start=start_week, weekdays=wkd, quantity=quantity, days=days, weeks=weeks)
-    print(f"начало {shdl1.start} окончание {shdl1.end_date}")
-
-    pl = Pill(name="Препарат", sheduler=shdl1)
-    print(f"начало {pl.sheduler.start} окончание {pl.sheduler.end_date}")
-    print(f'{pl}') 
-    print(f"График приема: ")     
-    print(pl.sheduler.shedule(start=date_from, end=date_till))
-    print(f"потребность - {pl.sheduler.requirement(start=date_from, end=date_till)}")
+        wkd = Weekday(weekdays=weekdays, timeofday=timeofdays)
+        shdl = Sheduler(start=start_date, weekdays=wkd, quantity=doze, days=duration_days, weeks=duration_week) 
+        pill = Pill(name=pill_name, sheduler=shdl) 
+        pills.append(pill)        
+        previous_date = pill.end_date()
+        previous_date_exist = True
+        
+        exit = input('Закончить - введите X ')
+        if exit == 'X':
+            break
+    date_from = datetime.strptime(input('Введите дату начала периода в формате ДД.ММ.ГГГГ: '), "%d.%m.%Y").date()
+    date_till = datetime.strptime(input('Введите дату конца периода в формате ДД.ММ.ГГГГ: '), "%d.%m.%Y").date()
+    for item in pills:
+        print(item.delivery())
+        print(item.requirement(from_date=date_from, till_date=date_till))
+        print(*item.shedule(from_date=date_from, till_date=date_till)[1:], sep='\n')
 
 
 if __name__ == "__main__":

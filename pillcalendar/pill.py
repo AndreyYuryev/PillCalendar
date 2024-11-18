@@ -15,7 +15,7 @@ class Pill:
     
     def requirement(self, from_date: date, till_date: date):
         requirement = self.sheduler.requirement(start=from_date, end=till_date)
-        return f"Потребность {self.name} составляет {requirement} штук"
+        return f"Потребность {self.name} - {requirement} штук"
     
     def shedule(self, from_date: date, till_date: date):
         timeline = self.sheduler.shedule(start=from_date, end=till_date)
@@ -26,3 +26,6 @@ class Pill:
     
     def delivery(self):
         return f'Прием {self.name} c {self.sheduler.start_date} по {self.sheduler.end_date}'
+    
+    def end_date(self):
+        return self.sheduler.end_date
