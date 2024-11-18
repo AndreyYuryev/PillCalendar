@@ -33,6 +33,7 @@ def main():
         exit = input('Закончить - введите X ')
         if exit == 'X':
             break
+        
     date_from = datetime.strptime(input('Введите дату начала периода в формате ДД.ММ.ГГГГ: '), "%d.%m.%Y").date()
     date_till = datetime.strptime(input('Введите дату конца периода в формате ДД.ММ.ГГГГ: '), "%d.%m.%Y").date()
     for item in pills:
