@@ -21,7 +21,7 @@ def test_requirement():
     shdl = Sheduler(start=start_date, weekdays=wkd, quantity=doze, days=duration_days, weeks=duration_week)
     
     pill = Pill(name=pill_name, sheduler=shdl)
-    assert pill.requirement(from_date=start_date, till_date=end_date) == f'Потребность {pill_name} составляет {requirement} штук'
+    assert pill.requirement(from_date=start_date, till_date=end_date) == f'Потребность {pill_name} - {requirement} штук'
     
     
 def test_shedule():
@@ -68,3 +68,4 @@ def test_delivery():
     
     delivery = f'Прием {pill_name} c {start_date} по {end_date}'
     assert pill.delivery() == delivery
+    assert pill.end_date() == end_date
