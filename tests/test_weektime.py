@@ -91,4 +91,3 @@ def test_sheduler_shedule():
     start_date = datetime.strptime(str_start_date, "%d.%m.%Y").date()
     assert shdl.shedule(start=start_date, end=end_date) == timeline    
     
-    

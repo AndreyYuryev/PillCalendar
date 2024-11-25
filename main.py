@@ -42,5 +42,15 @@ def main():
         print(*item.shedule(from_date=date_from, till_date=date_till)[1:], sep='\n')
 
 
+def main_for_test():
+    weekdays = list(input().split())
+    timeofdays = list(input().split())
+    #weekdays = ["Пн", "Пт", "Чт", "Сб"]
+    #timeofdays = ["Утро", "День", "Вечер"]
+    wkd = Weekday(weekdays=weekdays, timeofday=timeofdays)
+    for item in wkd.weekday_index:
+        print(item)
+
 if __name__ == "__main__":
-    main()
+    #main()
+    main_for_test()
