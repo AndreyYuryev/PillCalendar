@@ -52,5 +52,5 @@ def main_for_test():
         print(item)
 
 if __name__ == "__main__":
-    #main()
-    main_for_test()
+    main()
+    #main_for_test()
