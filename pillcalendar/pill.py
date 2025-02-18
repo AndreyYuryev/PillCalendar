@@ -20,6 +20,9 @@ class Pill:
     def shedule(self, from_date: date, till_date: date):
         timeline = self.sheduler.shedule(start=from_date, end=till_date)
         shedule_str = [f'График приема препарата {self.name}:']
+        if timeline is None:
+            shedule_str.append('')
+            return shedule_str
         for item in timeline:
             shedule_str.append(' '.join(item[1]))
         return shedule_str

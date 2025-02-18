@@ -47,6 +47,15 @@ def test_shedule():
     
     assert pill.shedule(from_date=start_date, till_date=end_date) == timeline
     
+    str_start_date2 = "21.08.2024"
+    start_date2 = datetime.strptime(str_start_date2, "%d.%m.%Y").date()
+    end_date2 = start_date2 + timedelta(days=duration_days, weeks=duration_week)  
+    timeline = [f"График приема препарата {pill_name}:",
+                '']
+    assert pill.shedule(from_date=start_date2, till_date=end_date2) == timeline
+    
+    
+    
 def test_delivery():
     weekdays = ["Пн", "Вт", "Чт", "Сб"]
     timeofdays = ["Утро", "День", "Вечер"]
