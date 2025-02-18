@@ -2,7 +2,7 @@ import pytest
 import subprocess
 import sys
 from io import StringIO
-from main import main_for_test
+from main_test import main_for_test
 
 
 @pytest.fixture  
